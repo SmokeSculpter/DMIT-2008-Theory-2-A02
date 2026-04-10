@@ -1,7 +1,7 @@
 {
   "site": {
-    "title": "Gianmarco Cavallo - Freelance front-end Developer",
-    "description": "I'm a developer based in Italy, passionate about user experience and specializing in engaging animations and micro-interactions. My primary tools of choice include: JavaScript, React, Solid.js, Astro, Svelte, and Node.js.",
+    "title": "Cole Seguin - Software Developer",
+    "description": "I'm a developer based out of Edmonton, who takes pride in solving problems for businesses. My primary technologies include: JavaScript, TypeScript, React, C#, .NET, and SQL.",
     "footer": {
       "year": "2026",
       "prefix": "Built on",
@@ -11,34 +11,34 @@
     }
   },
   "seo": {
-    "personName": "Gianmarco",
-    "jobTitle": "Freelance Frontend Developer",
-    "worksFor": "Self-Employed",
-    "location": "Italy",
+    "personName": "Cole Seguin",
+    "jobTitle": "Software Developer",
+    "worksFor": "ATCO",
+    "location": "Edmonton",
     "countryCode": "IT",
-    "nationality": "Italy",
-    "publisherName": "Gianmarco",
+    "nationality": "Canada",
+    "publisherName": "Cole Seguin",
     "sameAs": [
-      "https://www.linkedin.com/in/gianmarco-cavallo/",
-      "https://github.com/Ladvace"
+      "https://www.linkedin.com/in/cole-seguin-940743256/",
+      "https://github.com/SmokeSculpter"
     ]
   },
   "intro": {
     "welcomeLabel": "welcome",
-    "name": "Gianmarco Cavallo",
-    "summary": "a software developer with strong focus on the user experience, animations and micro interactions",
+    "name": "Cole Seguin",
+    "summary": "a software developer with strong focus on solving problems for businesses",
     "socialButtons": [
       {
         "ariaLabel": "github profile",
         "screenReaderLabel": "GitHub Profile",
         "icon": "ri:github-fill",
-        "url": "https://github.com/Ladvace"
+        "url": "https://github.com/SmokeSculpter"
       },
       {
         "ariaLabel": "linkedin profile",
         "screenReaderLabel": "Linkedin Profile",
         "icon": "ri:linkedin-box-fill",
-        "url": "https://www.linkedin.com/in/gianmarco-cavallo/"
+        "url": "https://www.linkedin.com/in/cole-seguin-940743256/"
       },
       {
         "ariaLabel": "dribble profile",
@@ -54,38 +54,38 @@
     },
     "image": {
       "src": "/me.webp",
-      "alt": "memoji of gianmarco"
+      "alt": "memoji of Cole Seguin"
     }
   },
   "about": {
     "title": "About me",
-    "intro": "Hi, I'm Gianmarco, a front-end software developer from Italy.",
+    "intro": "Hi, I'm Cole Seguin, a software developer from Edmonton.",
     "toolsIntro": "My primary tools of choice includes:",
     "tools": [
       "JavaScript",
+      "TypeScript",
       "React",
-      "Solidjs",
-      "Astro",
-      "Svelte",
-      "Nodejs"
+      "C#",
+      ".NET",
+      "SQL"
     ],
-    "passion": "Beyond coding, I'm passionate about design, illustration, animation and 3D modelling and traveling. An unusual hobby of mine is collecting vintage passports, they're interesting pieces of history to me.",
-    "approach": "While I have some preferred tools, I always choose the best one for the job, even if it's not on my usual list. My goal is to find the right solution for each project."
+    "passion": "Beyond coding, I'm passionate about gaming and reading.",
+    "approach": "While I have some preferred tools, I am always looking to learn new tools and method to ensure the job is completed correctly,"
   },
   "contacts": {
-    "title": "Let's start working together!",
+    "title": "Feel free to reach out!",
     "contactDetailsTitle": "Contact Details",
-    "email": "contact@gianmarcocavallo.com",
-    "location": "Italy",
+    "email": "coleseguin@shaw.ca",
+    "location": "Edmonton",
     "socialsTitle": "Socials",
     "socialLinks": [
       {
         "label": "Linkedin",
-        "url": "https://www.linkedin.com/in/gianmarco-cavallo/"
+        "url": "https://www.linkedin.com/in/cole-seguin-940743256/"
       },
       {
         "label": "Github",
-        "url": "https://github.com/Ladvace"
+        "url": "https://github.com/SmokeSculpter"
       },
       {
         "label": "Discord",
