@@ -1,6 +1,7 @@
 # Theory 2
 
 > Student Name: **Cole Seguin**
+> GitHub Username: **SmokeSculpter**
 
 ![Website Screenshot](./docs/images/screenshot.png)
 
