@@ -1,56 +1,95 @@
-import { createElement } from "react";
-import { render, screen } from "@testing-library/react";
-import { describe, expect, vi } from "vitest";
-import WeatherCard from "./WeatherCard";
+import { http, HttpResponse } from "msw";
+import { server } from "@/test/msw/server";
+import {
+  getWeatherForProfile,
+  getWeatherLocationFromProfile,
+} from "./weather";
 
-vi.mock("./Carc", () => ({
-    default: ({ title, children }) => {
-        createElement(
-            "section",
-            null,
-            title ? createElement("h2", null, title) : null,
-            children
-        )
-    }
-}));
+describe("getWeatherLocationFromProfile", () => {
+  it("prefers weather.location when provided", () => {
+    const profile = {
+      weather: { location: " Tokyo  " },
+      timeZone: { zone: "America/Edmonton" },
+      contacts: { location: "Italy" },
+    };
 
-describe("WeatherCard", () => {
-    it("renders current weather details", () => {
-        const weather = {
-            location: "Edmonton, CA",
-            temperatureC: 12.7,
-            description: "Moderate Rain",
-            iconUrl: "https://openweathermap.org/img/wn/10d@2x.png"
-        };
+    expect(getWeatherLocationFromProfile(profile)).toBe("Tokyo");
+  });
 
-        render(createElement(WeatherCard, { weather }));
+  it("uses city parsed from timeZone.zone when custom location is missing", () => {
+    const profile = {
+      timeZone: { zone: "America/Los_Angeles" },
+      contacts: { location: "Italy" },
+    };
 
-        expect(
-            screen.getByRole("heading", { name: /current weather/i })
-        ).toBeInTheDocument();
-        expect(screen.getByText("Edmonton, CA")).toBeInTheDocument();
-        expect(screen.getByText("13°C")).toBeInTheDocument();
-        expect(screen.getByText("Moderate Rain")).toBeInTheDocument();
-        expect(screen.getByRole("img", { name: "Moderate Rain" })).toHaveAttribute(
-            "src",
-            weather.iconUrl
-        );
+    expect(getWeatherLocationFromProfile(profile)).toBe("Los Angeles");
+  });
+
+  it("falls back to contacts.location when timezone data is missing", () => {
+    const profile = {
+      contacts: { location: "Rome" },
+    };
+
+    expect(getWeatherLocationFromProfile(profile)).toBe("Rome");
+  });
+});
+
+describe("getWeatherForProfile", () => {
+  const profile = {
+    timeZone: { zone: "America/Edmonton" },
+    contacts: { location: "Italy" },
+  };
+
+  it("returns a friendly message when API key is missing", async () => {
+    const result = await getWeatherForProfile(profile, "");
+
+    expect(result).toEqual({
+      location: "Edmonton",
+      error:
+        "Add your weather API key in local environment settings to show live weather.",
     });
+  });
 
-    it("renders fallback error content when weather data is unavailable", () => {
-        render(
-            createElement(WeatherCard, {
-                weather: {
-                    location: "Edmonton",
-                    error: "Unable to load current weather right now."
-                },
-            })
-        );
+  it("maps OpenWeather success response into UI payload", async () => {
+    server.use(
+      http.get("https://api.openweathermap.org/data/2.5/weather", ({ request }) => {
+        const url = new URL(request.url);
+        expect(url.searchParams.get("q")).toBe("Edmonton");
+        expect(url.searchParams.get("units")).toBe("metric");
+        expect(url.searchParams.get("appid")).toBe("test-key");
 
-        expect(screen.getByText("Edmonton")).toBeInTheDocument();
-        expect(
-            screen.getByText("Unable to load current weather right now.")
-        ).toBeInTheDocument();
-        expect(screen.queryByRole("img")).not.toBeInTheDocument();
+        return HttpResponse.json({
+          name: "Edmonton",
+          sys: { country: "CA" },
+          main: { temp: 7.4 },
+          weather: [{ description: "moderate rain", icon: "10d" }],
+        });
+      })
+    );
+
+    const result = await getWeatherForProfile(profile, "test-key");
+
+    expect(result).toEqual({
+      location: "Edmonton, CA",
+      temperatureC: 7.4,
+      description: "Moderate Rain",
+      iconUrl: "https://openweathermap.org/img/wn/10d@2x.png",
     });
+  });
+
+  it("returns a fallback error when the weather API fails", async () => {
+    server.use(
+      http.get(
+        "https://api.openweathermap.org/data/2.5/weather",
+        () => new HttpResponse(null, { status: 500 })
+      )
+    );
+
+    const result = await getWeatherForProfile(profile, "test-key");
+
+    expect(result).toEqual({
+      location: "Edmonton",
+      error: "Unable to load current weather right now.",
+    });
+  });
 });
